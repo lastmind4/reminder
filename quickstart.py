@@ -7,7 +7,7 @@ from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import httplib2
-import datetime
+from datetime import datetime, timedelta
 
 # Setup the Calendar API
 # SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -58,13 +58,19 @@ service = build('calendar', 'v3', http=creds.authorize(Http()))
 # print 'Event created: %s' % (event.get('htmlLink'))
 
 
+startTime = datetime.now() + timedelta(minutes=30)
+endTime = startTime + timedelta(minutes=10)
+
+def strftime(time1):
+  return time1.strftime("%H:%M:%S")
+
 event = {
-  "summary": "test-1830",
+  "summary": "reminder-%s" % strftime(startTime),
   "start": {
-    "dateTime": "2018-07-08T18:30:00+08:00"
+    "dateTime": "2018-07-08T%s+08:00" % strftime(startTime)
   },
   "end": {
-    "dateTime": "2018-07-08T19:00:00+08:00"
+    "dateTime": "2018-07-08T%s+08:00" % strftime(endTime)
   },
   "reminders": {
     "overrides": [{
@@ -80,7 +86,7 @@ print('Event created: %s' % (event.get('htmlLink')))
 
 
 # Call the Calendar API
-now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 print('Getting the upcoming 10 events')
 events_result = service.events().list(calendarId='primary', timeMin=now,
                                       maxResults=10, singleEvents=True,
