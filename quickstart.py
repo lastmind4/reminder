@@ -64,6 +64,9 @@ endTime = startTime + timedelta(minutes=10)
 def strftime(time1):
   return time1.strftime("%H:%M:%S")
 
+# reminders.method:
+#   popup: app notification
+#   email: email
 event = {
   "summary": "reminder-%s" % strftime(startTime),
   "start": {
@@ -74,7 +77,7 @@ event = {
   },
   "reminders": {
     "overrides": [{
-      "method": "popup",
+      "method": "email",
       "minutes": 0
     }],
     "useDefault": False
