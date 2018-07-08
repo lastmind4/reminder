@@ -62,7 +62,7 @@ startTime = datetime.now() + timedelta(minutes=30)
 endTime = startTime + timedelta(minutes=10)
 
 def strftime(time1):
-  return time1.strftime("%H:%M:%S")
+  return time1.strftime("%Y-%m-%dT%H:%M:%S")
 
 # reminders.method:
 #   popup: app notification
@@ -70,10 +70,10 @@ def strftime(time1):
 event = {
   "summary": "reminder-%s" % strftime(startTime),
   "start": {
-    "dateTime": "2018-07-08T%s+08:00" % strftime(startTime)
+    "dateTime": "%s+08:00" % strftime(startTime)
   },
   "end": {
-    "dateTime": "2018-07-08T%s+08:00" % strftime(endTime)
+    "dateTime": "%s+08:00" % strftime(endTime)
   },
   "reminders": {
     "overrides": [{
