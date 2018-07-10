@@ -8,6 +8,7 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import httplib2
 from datetime import datetime, timedelta
+import sys
 
 # Setup the Calendar API
 # SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -57,9 +58,15 @@ service = build('calendar', 'v3', http=creds.authorize(Http()))
 # event = service.events().insert(calendarId='primary', body=event).execute()
 # print 'Event created: %s' % (event.get('htmlLink'))
 
+# set startTime deplay Minutes
+params = sys.argv[1:]
+if len(params) > 0:
+  startTimeDelayMinutes = int(params[0])
+else:
+  startTimeDelayMinutes = 30
 
-startTime = datetime.now() + timedelta(minutes=30)
-endTime = startTime + timedelta(minutes=10)
+startTime = datetime.now() + timedelta(minutes=startTimeDelayMinutes)
+endTime = startTime + timedelta(minutes=5)
 
 def strftime(time1):
   return time1.strftime("%Y-%m-%dT%H:%M:%S")
